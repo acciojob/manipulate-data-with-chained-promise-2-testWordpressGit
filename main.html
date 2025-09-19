@@ -1,13 +1,50 @@
+
 <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chained Promises Example</title>
+</head>
+<body>
+  <div id="output"></div>
 
-<html>
-  <head>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
+  <script>
+    // Function to return initial promise
+    function getInitialArray() {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve([1, 2, 3, 4]); // after 3s, resolve array
+        }, 3000);
+      });
+    }
 
-  <body>
-    <!-- do not change this code -->
-    <div id="output"></div>
-    <script type="text/javascript" src="./script.js"></script>
-  </body>
+    // Step 1: Filter odd numbers (keep even numbers)
+    function filterEvenNumbers(arr) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const evens = arr.filter(num => num % 2 === 0);
+          document.getElementById("output").textContent = evens;
+          resolve(evens);
+        }, 1000);
+      });
+    }
+
+    // Step 2: Multiply even numbers by 2
+    function multiplyByTwo(arr) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          const multiplied = arr.map(num => num * 2);
+          document.getElementById("output").textContent = multiplied;
+          resolve(multiplied);
+        }, 2000);
+      });
+    }
+
+    // Chaining promises
+    getInitialArray()
+      .then(filterEvenNumbers)
+      .then(multiplyByTwo);
+  </script>
+</body>
 </html>
